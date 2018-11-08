@@ -7,12 +7,18 @@ import {Route, Link} from 'react-router-dom'
 import Single from './Single'
 
 class Main extends Component {
-  constructor() {
-    super()
-  }
+  // constructor() {
+  //   super()
+  // }
+
+  state = { loading: true}
 
   componentDidMount() {
     // this.props.removePost(1)
+    this.props.startLoadingPost().then(() => {
+      this.setState({loading: false})
+    })
+    this.props.startLoadingComment()
   }
 
   // componentDidUpdate(prevProps, prevState) {
@@ -50,7 +56,7 @@ class Main extends Component {
             <AddPhoto {...this.props} />
           )}/>
           <Route path = "/single/:id" render={(params) => (
-              <Single {...this.props} {...params}/>
+              <Single loading={this.state.loading} {...this.props} {...params}/>
           )}/>
       </div>
     )
